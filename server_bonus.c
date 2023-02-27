@@ -6,7 +6,7 @@
 /*   By: hobenaba <hobenaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 09:26:19 by hobenaba          #+#    #+#             */
-/*   Updated: 2023/02/27 14:37:07 by hobenaba         ###   ########.fr       */
+/*   Updated: 2023/02/27 15:31:09 by hobenaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,16 @@ void	sig_handler(int signal, siginfo_t *info, void *contest)
 	static int	i;
 	static int	count;
 	int			nb;
+	static int	pid;
 
 	(void)contest;
 	if (count++ == 0)
 		arr = malloc(sizeof(int) * 8);
+	if (pid != info->si_pid)
+	{
+		pid = info->si_pid;
+		i = 0;
+	}
 	if (signal == SIGUSR1)
 		arr[i++] = 0;
 	else if (signal == SIGUSR2)

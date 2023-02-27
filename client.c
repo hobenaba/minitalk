@@ -6,7 +6,7 @@
 /*   By: hobenaba <hobenaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:26:50 by hobenaba          #+#    #+#             */
-/*   Updated: 2023/02/26 18:52:50 by hobenaba         ###   ########.fr       */
+/*   Updated: 2023/02/27 15:02:20 by hobenaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	manage_errors(int a)
 {
 	if (a == 1)
-		ft_printf ("Error\nNot enough arguments");
+		ft_printf ("Error\nMake sure its 3 arguments no more no less");
 	else if (a == 2)
 		ft_printf("Error\nThe Pid is invalid");
 	exit (1);

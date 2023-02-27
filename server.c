@@ -6,7 +6,7 @@
 /*   By: hobenaba <hobenaba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:29:55 by hobenaba          #+#    #+#             */
-/*   Updated: 2023/02/26 09:54:32 by hobenaba         ###   ########.fr       */
+/*   Updated: 2023/02/27 15:33:51 by hobenaba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,22 @@ int	back_to_number(int *arr)
 	return (nb);
 }
 
-void	sig_handler(int signal)
+void	sig_handler(int signal, siginfo_t *info, void *contest)
 {
 	static int	*arr;
 	static int	i;
 	static int	count;
 	int			nb;
+	static int	pid;
 
+	(void)contest;
 	if (count++ == 0)
 		arr = malloc(sizeof(int) * 8);
+	if (pid != info->si_pid)
+	{
+		pid = info->si_pid;
+		i = 0;
+	}
 	if (signal == SIGUSR1)
 		arr[i++] = 0;
 	else if (signal == SIGUSR2 && i != 0)
@@ -64,11 +71,14 @@ void	sig_handler(int signal)
 int	main(void)
 {
 	int					pid;
+	struct sigaction	sa;
 
+	sa.sa_sigaction = sig_handler;
+	sa.sa_flags = SA_SIGINFO;
 	pid = getpid();
 	ft_printf("%d\n", pid);
-	signal(SIGUSR1, sig_handler);
-	signal(SIGUSR2, sig_handler);
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
 		pause();
 }
